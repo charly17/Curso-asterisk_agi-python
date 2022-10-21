@@ -1,0 +1,7 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres_fastagi
+POSTGRES_PORT=5432
+POSTGRES_DB=asterisk
+POSTGRES_USER=asterisk
+POSTGRES_PASSWORD=FastagiAsterisk
