@@ -10,7 +10,6 @@
 *.xlsx
 *.xls
 *.sql
-*.gsm
 *static/img/*
 *static/media/*
 */media/*

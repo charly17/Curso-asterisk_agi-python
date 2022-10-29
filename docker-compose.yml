@@ -14,7 +14,7 @@ services:
     depends_on:
       - postgres_fastagi
     volumes:
-      - .:/opt/Fastagi
+      - ./compose/django:/opt/Fastagi
     env_file:
       - ./.envs/.django
       - ./.envs/.postgres

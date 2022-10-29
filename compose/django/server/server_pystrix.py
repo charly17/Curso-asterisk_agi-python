@@ -1,17 +1,8 @@
 #!/opt/virtualenv/bin/python
-import os
 import re
-import sys
-import time
-import django
-import pystrix
 import threading
-
-# Import django to future query to db
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-sys.path.append(BASE_DIR)
-os.environ['DJANGO_SETTINGS_MODULE'] = 'Fastagi.settings'
-django.setup()
+import time
+import pystrix
 
 
 class FastAGIServer(threading.Thread):
@@ -27,49 +18,85 @@ class FastAGIServer(threading.Thread):
         self._fagi_server = pystrix.agi.FastAGIServer(interface='0.0.0.0')
 
         self._fagi_server.register_script_handler(
-            re.compile('ssocial'), self._demo_handler)
-        self._fagi_server.register_script_handler(None, self._noop_handler)
+            re.compile('variables'), self.variables)
 
-    def _demo_handler(self, agi, args, kwargs, match, path):
-        """
-        `agi` is the AGI instance used to process events related to the
-        channel,`args` is a collection of positional arguments provided
-        with the scriptas a tuple, `kwargs` is a dictionary of keyword
-        arguments supplied with the script
-        (values are enumerated in a list), `match` is the regex match
-        object (None if the fallback handler), and `path` is the string
-        path supplied by Asterisk, in case special processing is needed.
+        self._fagi_server.register_script_handler(
+            re.compile('channel-variables'), self.channel_variables)
 
-        The directives issued in this function can all raise Hangup
-        exceptions, which should be caught if doing anything complex,
-        but an uncaught exception will simply cause a warning to
-        be raised, making AGI scripts very easy to write.
-        """
-        agi.execute(pystrix.agi.core.Answer())  # Answer the call
-        print(args)
+        self._fagi_server.register_script_handler(
+            re.compile('dial-app'), self.dial_app)
 
-        # Play a file; allow DTMF '1' or '2' to interrupt
-        response = agi.execute(pystrix.agi.core.StreamFile(
-            'demo-thanks', escape_digits=('1', '2')))
-        # Playback interrupted; if you don't care,you don't need to catch this
-        if response:
-            # The key pressed by the user and the playback time
-            (dtmf_character, offset) = response
+        self._fagi_server.register_script_handler(
+            re.compile('say-alfa-digit'), self.say_alfa_digit)
 
-        agi.execute(pystrix.agi.core.Hangup())  # Hang up the call
+        self._fagi_server.register_script_handler(
+            re.compile('llamada-pin'), self.llamada_pin)
 
-    def _noop_handler(self, agi, args, kwargs, match, path):
-        """
-        Does nothing, causing control to return to Asterisk's dialplan
-        immediately; provided just
-        to demonstrate the fallback handler.
-        """
+    def variables(self, agi, *args, **kwargs):
         agi.execute(pystrix.agi.core.Answer())
-        agi.execute(pystrix.agi.core.GetOption(
-                '/var/lib/asterisk/sounds/custom/SALUDO',
-                escape_digits=('1', '2')
+        agi.execute(pystrix.agi.core.SetVariable('DESCRIPCION',
+                                                 'Mostramos variables')
+                    )
+        agi.execute(pystrix.agi.core.SetVariable('DESTINO', '102'))
+        agi.execute(pystrix.agi.core.SetVariable('TIEMPO', '10'))
+        agi.execute(pystrix.agi.core.SetVariable('OPCIONES', 'TtR'))
+
+    def channel_variables(self, agi, *args, **kwargs):
+        agi.execute(pystrix.agi.core.SetVariable('CHANVAR2',
+                    agi.execute(pystrix.agi.core.GetFullVariable('${EXTEN}'))
             )
         )
+        agi.execute(pystrix.agi.core.SetVariable('CHANVAR1',
+                    agi.execute(pystrix.agi.core.GetFullVariable('${CONTEXT}'))
+            )
+        )
+        agi.execute(pystrix.agi.core.SetVariable('CHANVAR3',
+                    agi.execute(
+                        pystrix.agi.core.GetFullVariable('${PRIORITY}'))
+            )
+        )
+        agi.execute(pystrix.agi.core.SetVariable('CHANVAR4',
+                    agi.execute(pystrix.agi.core.GetFullVariable('${CHANNEL}'))
+            )
+        )
+        agi.execute(pystrix.agi.core.SetVariable('CHANVAR5',
+                    agi.execute(
+                        pystrix.agi.core.GetFullVariable('${CALLERID(all)}'))
+            )
+        )
+
+    def dial_app(self, agi, *args, **kwargs):
+        agi.execute(pystrix.agi.core.Exec('Dial',
+                    options=('IAX2/102', '50', 'TtR'))
+                    )
+
+    def say_alfa_digit(self, agi, *args, **kwargs):
+        agi.execute(pystrix.agi.core.SayDigits(1234)
+                    )
+
+        agi.execute(pystrix.agi.core.SayAlpha('abcd')
+                    )
+
+    def llamada_pin(self, agi, *args, **kwargs):
+        opcion = 2
+        allowed_extension = {
+            '102': '8765'
+        }
+        password = agi.execute(
+            pystrix.agi.core.GetFullVariable('${CONTRASENA}')
+        )
+        extension = agi.execute(
+            pystrix.agi.core.GetFullVariable('${NUMERO}'))
+
+        for exten, passwd in allowed_extension.items():
+            agi.execute(
+                pystrix.agi.core.Verbose(f'{password} {passwd}', level=1))
+            agi.execute(
+                pystrix.agi.core.Verbose(f'{extension} {exten}', level=1))
+            if exten == extension and passwd == password:
+                opcion = 1
+
+        agi.execute(pystrix.agi.core.SetVariable('OPCION', opcion))
 
     def kill(self):
         self._fagi_server.shutdown()
@@ -83,8 +110,5 @@ if __name__ == '__main__':
     fastagi_core.start()
 
     while fastagi_core.is_alive():
-        # In a larger application, you'd probably do something
-        # useful in another non-daemon
-        # thread or maybe run a parallel AMI server
         time.sleep(1)
     fastagi_core.kill()

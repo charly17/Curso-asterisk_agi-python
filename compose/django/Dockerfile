@@ -10,8 +10,6 @@ RUN pip install supervisor
 
 RUN pip3 install virtualenv && python -m virtualenv /opt/virtualenv
 
-ENV PATH="/opt/virtualenv/bin:$PATH"
-
 RUN mkdir ${APP_HOME}
 
 WORKDIR ${APP_HOME}
