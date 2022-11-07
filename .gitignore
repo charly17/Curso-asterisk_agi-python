@@ -17,8 +17,8 @@
 *.code-workspace
 *.pyc
 *.svg
-!*/migrations/_init_.py
-*/migrations/*
+!*migrations/_init_.py
+*migrations/*
 db.sqlite3
 .vscode/
 docker-build/
