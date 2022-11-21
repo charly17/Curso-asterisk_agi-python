@@ -1,0 +1,33 @@
+version: '3'
+
+volumes:
+  postgres_fastagi: {}
+  postgres_backups_fastagi: {}
+
+services:
+  fastagi:
+    build:
+      context: ./compose/django/
+      dockerfile: ./Dockerfile
+    image: fastagi_server
+    container_name: fastagi_container
+    depends_on:
+      - postgres_fastagi
+    volumes:
+      - ./compose/django:/opt/Fastagi
+    env_file:
+      - ./.envs/.django
+      - ./.envs/.postgres
+    ports:
+      - "8000:8000"
+      - "4573:4573"
+  postgres_fastagi:
+    image: postgres:11.11
+    container_name: postgres_fastagi
+    volumes:
+      - postgres_fastagi:/var/lib/postgresql/data:Z
+      - postgres_backups_fastagi:/backups:z
+    env_file:
+      - ./.envs/.postgres
+    ports:
+      - "5432:5432"
