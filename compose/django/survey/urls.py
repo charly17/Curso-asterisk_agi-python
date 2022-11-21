@@ -9,5 +9,5 @@ router = routers.SimpleRouter(trailing_slash=False)
 router.register(r'', SurveyViewSets, basename='survey')
 
 urlpatterns = [
-    path('', include(router.urls)),
+    path('survey/', include(router.urls)),
 ]

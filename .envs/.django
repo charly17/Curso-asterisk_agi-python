@@ -1,0 +1,5 @@
+# AMI envars
+AMI_HOST=asterisk
+AMI_USER=astuserpy
+AMI_PASSWD=4st3rUserpy
+AMI_PORT=5038

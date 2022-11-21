@@ -41,3 +41,4 @@ services:
       - ./compose/asterisk-iax2/audios:/var/lib/asterisk/sounds/custom
     ports:
       - "4570:4569/udp"
+      - "8088:8088"

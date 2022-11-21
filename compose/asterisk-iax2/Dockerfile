@@ -24,4 +24,4 @@ RUN chown asterisk:asterisk -R /var/lib/asterisk/sounds/es/ /etc/asterisk /var/l
 RUN mkdir /var/lib/asterisk/sounds/custom
 WORKDIR /etc/asterisk
 
-CMD ["/usr/sbin/asterisk", "-c", "-ddd", "-f", "-vvv"]
+CMD ["/usr/sbin/asterisk", "-c", "-d", "-f"]

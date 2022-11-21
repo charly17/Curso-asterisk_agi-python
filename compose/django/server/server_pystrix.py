@@ -168,9 +168,9 @@ class FastAGIServer(threading.Thread):
                 'options': ['1', '2', '3', '4', '5']
             },
         ]
-        self.recusive_call_survey(agi, survey_options, 0)
+        self.recursive_call_survey(agi, survey_options, 0)
 
-    def recusive_call_survey(self, agi, survey, option):
+    def recursive_call_survey(self, agi, survey, option):
         """
         It's a recursive function that plays a survey, and if the user doesn't
         respond, it plays a message and then calls itself again
@@ -229,7 +229,7 @@ class FastAGIServer(threading.Thread):
                             sample_offset=2000
                         )
                     option += 1
-                    self.recusive_call_survey(agi, survey, option)
+                    self.recursive_call_survey(agi, survey, option)
             else:
                 self.decorator_playback(
                     agi,
