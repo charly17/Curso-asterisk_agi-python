@@ -23,5 +23,5 @@ RUN rm -fr /var/lib/asterisk/sounds/es/extra.zip /var/lib/asterisk/sounds/es/ext
 RUN chown asterisk:asterisk -R /var/lib/asterisk/sounds/es/ /etc/asterisk /var/lib/asterisk/moh
 RUN mkdir /var/lib/asterisk/sounds/custom
 WORKDIR /etc/asterisk
-
-CMD ["/usr/sbin/asterisk", "-c", "-d", "-f"]
+RUN apk add python3
+CMD ["/usr/sbin/asterisk", "-d", "-f"]

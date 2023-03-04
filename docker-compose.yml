@@ -39,6 +39,7 @@ services:
     volumes:
       - ./compose/asterisk-iax2/asterisk_conf:/etc/asterisk
       - ./compose/asterisk-iax2/audios:/var/lib/asterisk/sounds/custom
+      - ./compose/asterisk-iax2/agi.py:/var/lib/asterisk/agi-bin/agi.py
     ports:
       - "4570:4569/udp"
       - "8088:8088"
