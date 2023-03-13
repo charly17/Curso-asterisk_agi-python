@@ -11,10 +11,10 @@ source /opt/virtualenv/bin/activate
 ```
 Procedemos a realizar el archivo de la migración con django
 ```sh
-python3 /opt/fastagi/manage.py makemigrations
+python3 /opt/Fastagi/manage.py makemigrations
 ```
 
 El último paso es migrar a base de datos los cambios realizados
 ```sh
-python3 /opt/fastagi/manage.py migrate
+python3 /opt/Fastagi/manage.py migrate
 ```
