@@ -1,0 +1,35 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{% static 'css/fontawesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/brands.css' %}" rel="stylesheet">
+    <link href="{% static 'css/solid.css' %}" rel="stylesheet">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        <h2>Establecer variable</h2>
+        <label for="">Variable</label>
+        <input type="text" name="" id="variable-label">
+        <label for="">Valor</label>
+        <input type="text" name="" id="variable-value">
+        <button id="set-variable">Guardar</button>
+    </div>
+    <div>
+        <h2>Obtener variable</h2>
+        <input type="text" id="variable2-label">
+        <button id="get-variable">Obtener</button>
+        <span id="get-result"></span>
+    </div>
+    <div>
+        <h2>Continuar dialplan</h2>
+        <button id="continue-dial">Continuar en el dialplan</button>
+    </div>
+</body>
+<script src="{% static 'js/websocket.js' %}"></script>
+<script src="{% static 'js/ari_variable.js' %}"></script>
+</html>

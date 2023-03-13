@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --color-light: #ffffff;
+    --background-primary: rgba(12,12,12,1);
+    --background-secondary: rgba(49,49,49,1);
+}
+
+html {
+    font-size: 62.5% !important;
+}
+
+.phone {
+    border-radius: 5px;
+    background: #0c0c0c;
+    width: 100px;
+}
+
+.phone-screen {
+    height: 60px;
+    color: var(--color-light);
+    background: linear-gradient(180deg, rgba(49,49,49,1) 0%, rgba(12,12,12,1) 85%);
+    display: grid;
+    place-content: center;
+}
+
+.phone-screen > span {
+   font-size: 2rem;
+   color: #52EB55;
+   font-weight: bold;
+}
+
+.key-pad {
+    display: grid;
+    max-width: 100px;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+.key-pad .keys {
+    font-size: 1.2rem;
+    font-weight: bold;
+    background: linear-gradient(180deg, rgba(49,49,49,1) 0%, rgba(12,12,12,1) 85%);
+    color: var(--color-light);
+    cursor: pointer;
+    transition: background .3s;
+}
+
+.key-pad .keys:hover {
+    background: rgba(255, 255, 255, .2);
+}

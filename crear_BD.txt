@@ -1,0 +1,21 @@
+creación de base de datos
+
+desde la carpeta del proyecto ingresamos al container de django con el comando
+
+docker-compose exec fastagi bash
+
+
+Dentro del container activamos el ambiente de python con
+
+source /opt/virtualenv/bin/activate
+
+
+Procedemos a realizar el archivo de la migración con django
+
+python3 /opt/Fastagi/manage.py makemigrations
+
+
+El último paso es migrar a base de datos los cambios realizados
+python3 /opt/Fastagi/manage.py migrate
+
+
