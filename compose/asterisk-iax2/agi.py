@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 import sys
 import logging
+# Manejo de errores, guardamos el log.
 logging.basicConfig(level=logging.INFO, filename='/var/log/agi.log', format='%(asctime)s:%(levelname)s:%(message)s')
 cursor_sdtin = sys.stdin
 cursor_sdtout = sys.stdout
@@ -31,6 +32,15 @@ def get_env_vars():
         'agi_threadid': '140407944936248'
     }"""
     info = {}
+    """
+    Se leen las variables de asterisk y se almacenan en un diccionario.
+    Por ejemplo:
+    {
+        'agi_request': 'agi.py',
+        'agi_channel': 'IAX2/100-10643'
+    }
+    Esto leyendo las entradas stdin linea por linea hasta recibir una linea vacia o una linea con un salto de linea.
+    """
     for line in cursor_sdtin:
         if line == '' or line == '\n':
             break
@@ -39,19 +49,27 @@ def get_env_vars():
             info[key] = value.strip()
     return info
 
+""" Enviar comandos a asterisk.
+Primero se formatea el comando con los argumentos.
+Luego se escribe en el canal de salida stdout.
+Se guarda el log y se limpia el buffer.
+"""
 def send_command(command, *args):
     arguments = ' '.join(map(str, args))
     full_command = f'{command} {arguments}\n'
     cursor_sdtout.write(full_command)
     logging.info(f'COMMAND: {full_command}')
     cursor_sdtout.flush()
-
+# Se lee la respuesta de asterisk
 def agi_response():
     return cursor_sdtin.readline()
-
+# Se imprime la respuesta de manera mas legible.
 def response():
     return f'RESPONSE: {agi_response()}'
-
+"""
+La idea es ir enviando un comnado a asterisk y recibir la respuesta.
+Si no se sigue esta idea asterisk se cuelga.
+"""
 if __name__ == '__main__':
     try:
         variables = get_env_vars()
@@ -63,7 +81,7 @@ if __name__ == '__main__':
         send_command('GET VARIABLE','EXTEN')
         logging.info(response())
         send_command('STREAM FILE','custom/BIENV_ENC', "'1,2,3,4'", 0)
-        result = agi_response().split(' ')[1]
+        result = agi_response().split(' ')[1] 
         logging.info(f'RESPONSE {chr(int(result.split("=")[-1]))}')
         send_command('HANGUP', variables['agi_channel'])
         logging.info(response())
