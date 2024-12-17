@@ -3,6 +3,7 @@ import sys
 import logging
 # Manejo de errores, guardamos el log.
 logging.basicConfig(level=logging.INFO, filename='/var/log/agi.log', format='%(asctime)s:%(levelname)s:%(message)s')
+# Declaramos las variables con las que manejaremos las entradas y salidas.
 cursor_sdtin = sys.stdin
 cursor_sdtout = sys.stdout
 
@@ -57,9 +58,10 @@ Se guarda el log y se limpia el buffer.
 def send_command(command, *args):
     arguments = ' '.join(map(str, args))
     full_command = f'{command} {arguments}\n'
+    # Una vez formateado el comando se escribe en el canal de salida "se envia a STDOUT"
     cursor_sdtout.write(full_command)
     logging.info(f'COMMAND: {full_command}')
-    cursor_sdtout.flush()
+    cursor_sdtout.flush()   # Vaciamos el buffer
 # Se lee la respuesta de asterisk
 def agi_response():
     return cursor_sdtin.readline()
