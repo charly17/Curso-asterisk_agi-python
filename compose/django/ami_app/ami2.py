@@ -3,7 +3,6 @@ import logging
 from datetime import datetime
 from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
 
-
 class AMIAsterisk():
 
     def __init__(self):
