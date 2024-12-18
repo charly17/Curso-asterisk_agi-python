@@ -5,6 +5,7 @@ agi = pystrix.agi.AGI()
 agi.execute(pystrix.agi.core.Verbose('Validando identificacion', level=1))
 agi.execute(pystrix.agi.core.Answer())
 
+
 identi_confirm = False
 
 while identi_confirm is False:
