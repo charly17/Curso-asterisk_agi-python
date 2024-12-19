@@ -43,9 +43,11 @@ def get_env_vars():
     Esto leyendo las entradas stdin linea por linea hasta recibir una linea vacia o una linea con un salto de linea.
     """
     for line in cursor_sdtin:
+        # Si me manda un salto de linea o linea vacia se rompe el bucle por que indicaria que ya termino de enviarme los parametros
         if line == '' or line == '\n':
             break
         else:
+            # Se guardan los datos en el diccionario info
             key, value = line.split(':', 1)
             info[key] = value.strip()
     return info
