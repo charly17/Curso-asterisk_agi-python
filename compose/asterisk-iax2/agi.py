@@ -84,7 +84,9 @@ if __name__ == '__main__':
         logging.info(response())
         send_command('GET VARIABLE','EXTEN')
         logging.info(response())
+        # Mandamos un comando, enviamos un audio y tambien las respuestas que pueden presionar y al final en tiempo de espera para continuar.
         send_command('STREAM FILE','custom/BIENV_ENC', "'1,2,3,4'", 0)
+        # Nos devuelve un string el cual debemos formatear (remover los espacios) y el ultimo numero es la respueta que presionaron.
         result = agi_response().split(' ')[1] 
         logging.info(f'RESPONSE {chr(int(result.split("=")[-1]))}')
         send_command('HANGUP', variables['agi_channel'])
