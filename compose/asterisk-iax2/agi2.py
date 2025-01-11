@@ -1,8 +1,11 @@
 #!/root/virtualenv/bin/python
 import pystrix
 
+# Se crea el objeto agi con el cual se podran usar las funciones de agi
 agi = pystrix.agi.AGI()
+# con execute manejamos el SDTDOUT, enviamos el comando utilizando pystrix.
 agi.execute(pystrix.agi.core.Verbose('Validando identificacion', level=1))
+# enviamos la accion para contestar el canal.
 agi.execute(pystrix.agi.core.Answer())
 
 
