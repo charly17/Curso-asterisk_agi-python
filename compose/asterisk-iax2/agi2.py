@@ -11,6 +11,7 @@ agi.execute(pystrix.agi.core.Answer())
 
 identi_confirm = False
 
+# Se inserta el codigo dentro de un while para asi se solicite de nuevo la identificacion hasta que ingrese un dato valido.
 while identi_confirm is False:
 
     identificacion = agi.execute(
@@ -20,11 +21,14 @@ while identi_confirm is False:
     )
     if identificacion:
         identificacion = identificacion[0]
+        # Se reproduce un audio al cliente que indique el numero que ingreso.
         agi.execute(pystrix.agi.core.StreamFile('custom/llamada_exitosa'))
         agi.execute(pystrix.agi.core.SayDigits(identificacion))
+        # Aqui mandamos un audio que indique marque 1 para SI o marque 2 para NO y lo guardamos en la variable.
         option = agi.execute(
             pystrix.agi.core.GetOption('custom/llamada_exitosa', [1, 2])
         )
+        # Validamos si nuestra variable contine un dato y posterormente verificamos que opcion es.
         if option:
             option = option[0]
             if option == '1':
