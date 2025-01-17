@@ -7,7 +7,7 @@ from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
 
 channel_layer = get_channel_layer()
 
-
+# Acciones y Eventos
 class AMIAsterisk():
 
     def __init__(self):
@@ -34,6 +34,7 @@ class AMIAsterisk():
 
     def _register_callbacks(self):
         self._ami.register_callback(
+            # Indicamos que escuche todos los eventos
             '', self.show_events
         )
 

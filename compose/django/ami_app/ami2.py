@@ -36,6 +36,7 @@ class AMIAsterisk():
             pystrix.ami.core_events.CoreShowChannel,
             self.core_show_channels_events
         )
+        # Registramos un callback para capturar todos los eventos y los asociamos a una función (show_events)
         self._ami.register_callback(
             '', self.show_events
         )
@@ -65,6 +66,7 @@ class AMIAsterisk():
     def reload_events(self, event, manager):
         logging.error(f'reload events {event}')
 
+    # La funcion definida en la clase AMIAsterisk (register_callback) y que se asocia a la función show_events se declara aqui.
     def show_events(self, event, manager):
         event_name = event.get('Event', False)
         if 'DialState' == event_name:
