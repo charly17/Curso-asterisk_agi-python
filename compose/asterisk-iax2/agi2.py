@@ -16,17 +16,17 @@ while identi_confirm is False:
 
     identificacion = agi.execute(
         #pystrix.agi.core.GetData('custom/identificacion', 5000, 10)
-        pystrix.agi.core.GetData('custom/llamada_exitosa', 5000, 10)
+        pystrix.agi.core.GetData('custom/identificacion', 5000, 10)    # Nos devuelve el dtmf y el timeout en una tupla.
 
     )
     if identificacion:
         identificacion = identificacion[0]
         # Se reproduce un audio al cliente que indique el numero que ingreso.
-        agi.execute(pystrix.agi.core.StreamFile('custom/llamada_exitosa'))
+        agi.execute(pystrix.agi.core.StreamFile('custom/lectura'))
         agi.execute(pystrix.agi.core.SayDigits(identificacion))
         # Aqui mandamos un audio que indique marque 1 para SI o marque 2 para NO y lo guardamos en la variable.
         option = agi.execute(
-            pystrix.agi.core.GetOption('custom/llamada_exitosa', [1, 2])
+            pystrix.agi.core.GetOption('custom/confirmacion', [1, 2])
         )
         # Validamos si nuestra variable contine un dato y posterormente verificamos que opcion es.
         if option:
