@@ -8,11 +8,14 @@ class AMIAsterisk():
     def __init__(self):
         self._ami = pystrix.ami.Manager()
         self._ami.connect(host=AMI_HOST, port=int(AMI_PORT))
+        # Registramos los callbacks con los que llamamos a las funciones
         self._register_callbacks()
+        # Se genera un challenge para la autenticación
         challenge_response = self.execute(
             pystrix.ami.core.Challenge()
         )
 
+        # Se genera un challenge para la autenticación
         if challenge_response and challenge_response.success:
             action = pystrix.ami.core.Login(
                 AMI_USER, AMI_PASSWD,
@@ -27,9 +30,13 @@ class AMIAsterisk():
             )
         self._ami.monitor_connection()
 
+    # Declaramos una función para registrar los callbacks, AQUI ESCUCHAMOS LOS EVENTOS  de asterisk.
     def _register_callbacks(self):
+        # La estructura para registrar un callback es la siguiente"Llamamos la funcion register_callback":
         self._ami.register_callback(
+            # Indicamos el evento que queremos escuchar, este se encuentra en el modulo pystrix como parte de los eventos de AMI
             pystrix.ami.core_events.Reload,
+            # Le damos un nombre a nuestra funcion la cual se desarrollara mas abajo
             self.reload_events
         )
         self._ami.register_callback(
@@ -41,6 +48,7 @@ class AMIAsterisk():
             '', self.show_events
         )
 
+    # Los actions son los comandos que se envian a asterisk y se realizan mediante esta funcion.
     def execute(self, action):
         try:
             return self._ami.send_action(action)
