@@ -118,7 +118,6 @@ class AMIAsterisk():
             pystrix.ami.core.CoreShowChannels()
         )
 
-
 class MixMonitor(pystrix.ami.ami._Request):
     def __init__(self, channel, filename):
         pystrix.ami.ami._Request.__init__(self, 'MixMonitor')
