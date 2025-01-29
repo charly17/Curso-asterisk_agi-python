@@ -5,11 +5,11 @@ from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
 
 class AMIAsterisk():
 
-    def _init_(self):
+    def __init__(self):
         self._ami = pystrix.ami.Manager()
-        self._ami.connect(host=AMI_HOST, port=init(AMI_PORT))
+        self._ami.connect(host=AMI_HOST, port=int(AMI_PORT))
         self._register_callbacks()
-        challenge_response = self.execute(
+        challenge_response = self._ami.send_action(
             pystrix.ami.core.Challenge()
         )
 
@@ -18,7 +18,7 @@ class AMIAsterisk():
                 AMI_USER, AMI_PASSWD,
                 challenge=challenge_response.result['Challenge']
             )
-            self.execute(action)
+            self._ami.send_action(action)
         else:
             self._kill_flag = True
             logging.error(
@@ -32,6 +32,7 @@ class AMIAsterisk():
             '', self.events
         )
 
-    def events(self, events):
+    def events(self, events, manager):
         logging.warning(events)
+        print(events)
 
