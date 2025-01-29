@@ -6,7 +6,9 @@ from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
 class AMIAsterisk():
 
     def __init__(self):
+        # Inicializamos el Objeto de pystrix
         self._ami = pystrix.ami.Manager()
+        # Creamos la funcion de conexion
         self._ami.connect(host=AMI_HOST, port=int(AMI_PORT))
         self._register_callbacks()
         challenge_response = self._ami.send_action(
@@ -33,6 +35,9 @@ class AMIAsterisk():
         )
 
     def events(self, events, manager):
+        evento= events.get('Event', False)
+        if evento == 'DeviceStateChange':
+            print()
         logging.warning(events)
         print(events)
 
