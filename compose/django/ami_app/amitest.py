@@ -37,7 +37,7 @@ class AMIAsterisk():
     def events(self, events, manager):
         evento= events.get('Event', False)
         if evento == 'DeviceStateChange':
-            print()
+            print(f'la extension {events["Device"]} cambio el estado a {events["State"]}' )
         logging.warning(events)
         print(events)
 
