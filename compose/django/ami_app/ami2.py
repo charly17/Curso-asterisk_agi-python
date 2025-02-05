@@ -48,6 +48,7 @@ class AMIAsterisk():
             '', self.show_events
         )
 
+
     # Los actions son los comandos que se envian a asterisk y se realizan mediante esta funcion.
     def execute(self, action):
         try:
