@@ -35,9 +35,14 @@ class AMIAsterisk():
         )
 
     def events(self, events, manager):
-        evento= events.get('Event', False)
-        if evento == 'DeviceStateChange':
-            print()
-        logging.warning(events)
+        #logging.warning(events)
         print(events)
+        evento = events.get('Event', False)
+        if evento == 'DeviceStateChange':
+            print(f"la extension{events['Device']} cambio el estado a {events['State']}")
+        if evento == 'PeerSatus':
+            print(f"El peer {events['Peer']} esta {events['PeerStatus']}")
 
+    def listar_comandos(self):
+        response = self._ami.send_action(pystrix.ami.core.ListCommands())
+        print(response)
