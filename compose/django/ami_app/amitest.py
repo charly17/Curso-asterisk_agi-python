@@ -46,3 +46,4 @@ class AMIAsterisk():
     def listar_comandos(self):
         response = self._ami.send_action(pystrix.ami.core.ListCommands())
         print(response)
+        
