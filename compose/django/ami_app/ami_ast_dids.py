@@ -1,28 +1,11 @@
 import pystrix
 import logging
 from datetime import datetime
-from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
-
-_HOST = 'localhost'
-_USERNAME = 'admin'
-_PASSWORD = 'inbtel-2025ñ'
-
-""" # Configura tu cliente Pystrix
-ari_url = 'http://localhost:8088/ari'
-username = 'asterisk_user'
-password = 'asterisk_password'
-
-client = pystrix(ari_url, username, password)
-
-# Ejecuta el comando de recarga del dialplan
-response = client.execute("dialplan reload")
-
-if response.status == 200:
-    print("Dialplan recargado exitosamente.")
-else:
-    print(f"Error al recargar el dialplan: {response.status}")
- """
-
+#from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
+AMI_HOST = '198.58.111.115'
+AMI_USER = 'asteriskami1'
+AMI_PASSWD = 'inbtel-2025ñ'
+AMI_PORT = '5038'
 
 class AMIAsterisk():
 
@@ -137,13 +120,20 @@ class AMIAsterisk():
 
     def get_active_channels(self):
         return self.execute(
-            #pystrix.ami.core.CoreShowChannels()
-            pystrix.ami.core.Reload()
-            print("Dialplan recargado exitosamente.")
+            pystrix.ami.core.CoreShowChannels()
         )
+    def reloadast(self):
+        self._ami.send_action(
+            pystrix.ami.core.Reload())    
 
 class MixMonitor(pystrix.ami.ami._Request):
     def __init__(self, channel, filename):
         pystrix.ami.ami._Request.__init__(self, 'MixMonitor')
         self['Channel'] = channel
         self['File'] = filename
+
+
+# Crear una instancia de AMIAsterisk y ejecutar la función reloadast
+if __name__ == "__main__":
+    ami = AMIAsterisk()
+    ami.reloadast()  # Ejecutar la recarga al iniciar el script
