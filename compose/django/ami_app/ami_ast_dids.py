@@ -2,7 +2,7 @@ import pystrix
 import logging
 from datetime import datetime
 #from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
-AMI_HOST = '198.58.111.115'
+AMI_HOST = '192.168.122.124'
 AMI_USER = 'asteriskami1'
 AMI_PASSWD = 'inbtel-2025ñ'
 AMI_PORT = '5038'
@@ -136,5 +136,6 @@ class MixMonitor(pystrix.ami.ami._Request):
 # Crear una instancia de AMIAsterisk y ejecutar la función reloadast al ejecutar el script
 if __name__ == "__main__":
     ami = AMIAsterisk()
-    ami.reloadast()  # Ejecutar la recarga al iniciar el script
-    ami.get_command_list()
+    datos = ami.reloadast()  # Ejecutar la recarga al iniciar el script
+    #datos =ami.get_command_list()
+    print(datos)
