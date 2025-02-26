@@ -133,7 +133,8 @@ class MixMonitor(pystrix.ami.ami._Request):
         self['File'] = filename
 
 
-# Crear una instancia de AMIAsterisk y ejecutar la función reloadast
+# Crear una instancia de AMIAsterisk y ejecutar la función reloadast al ejecutar el script
 if __name__ == "__main__":
     ami = AMIAsterisk()
     ami.reloadast()  # Ejecutar la recarga al iniciar el script
+    ami.get_command_list()
