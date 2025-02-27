@@ -6,6 +6,7 @@ from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
 class AMIAsterisk():
 
     def __init__(self):
+        # Se crea el AMI MANAGER
         self._ami = pystrix.ami.Manager()
         self._ami.connect(host=AMI_HOST, port=int(AMI_PORT))
         # Registramos los callbacks con los que llamamos a las funciones

@@ -3,6 +3,7 @@ import logging
 from datetime import datetime
 #from Fastagi.settings import AMI_HOST, AMI_USER, AMI_PASSWD, AMI_PORT
 AMI_HOST = '198.58.111.115'
+# AMI_HOST = '192.168.122.124'
 AMI_USER = 'asteriskami1'
 AMI_PASSWD = 'inbtel-2025ñ'
 AMI_PORT = '5038'
@@ -13,7 +14,6 @@ class AMIAsterisk():
         self._ami = pystrix.ami.Manager()
         # Creamos la funcion de conexion
         self._ami.connect(host=AMI_HOST, port=int(AMI_PORT))
-        self._register_callbacks()
         challenge_response = self._ami.send_action(
             pystrix.ami.core.Challenge()
         )
@@ -32,21 +32,13 @@ class AMIAsterisk():
             )
         self._ami.monitor_connection()
 
-    def _register_callbacks(self):
-        self._ami.register_callback(
-            '', self.events
-        )
 
-    def events(self, events, manager):
-        #logging.warning(events)
-        print(events)
-        evento = events.get('Event', False)
-        if evento == 'DeviceStateChange':
-            print(f"la extension{events['Device']} cambio el estado a {events['State']}")
-        if evento == 'PeerSatus':
-            print(f"El peer {events['Peer']} esta {events['PeerStatus']}")
+    def reloadast(self):
+        self._ami.send_action(
+            pystrix.ami.core.Reload())
 
-    def listar_comandos(self):
-        response = self._ami.send_action(pystrix.ami.core.ListCommands())
-        print(response)
-        
+# Crear una instancia de AMIAsterisk y ejecutar la función reloadast al ejecutar el script
+if __name__ == "__main__":
+    ami = AMIAsterisk()
+    datos = ami.reloadast()  # Ejecutar la recarga al iniciar el script
+    #print(datos)
