@@ -11,6 +11,7 @@ from ami_app.ami import AMIAsterisk
 from ami_app.serializer import Click2CallSerializer
 
 
+
 class AMICommandsViewSet(GenericViewSet, ListModelMixin):
 
     def list(self, request, *args, **kwargs):
